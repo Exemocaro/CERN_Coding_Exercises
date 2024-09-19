@@ -1,0 +1,21 @@
+-pkg1
+  -pkg2
+    -pkg3
+      -pkg5
+    -pkg5
+  -pkg3
+    -pkg5
+  -pkg4
+    -pkg5
+    -pkg6
+-pkg2
+  -pkg3
+    -pkg5
+  -pkg5
+-pkg3
+  -pkg5
+-pkg4
+  -pkg5
+  -pkg6
+-pkg5
+-pkg6

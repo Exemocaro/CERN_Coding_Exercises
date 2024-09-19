@@ -11,6 +11,12 @@ from src.ex2_dependency_resolver import load_deps, resolve_deps, pprint
 def get_data_file_path(filename):
     return os.path.join(os.path.dirname(__file__), '..', 'data', filename)
 
+# Helper function to load expected output
+def load_expected_output(filename):
+    file_path = get_data_file_path(filename)
+    with open(file_path, 'r') as f:
+        return f.read()
+
 # Helper function to capture stdout
 # got help from here: https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html
 # and here: https://docs.python.org/3/library/sys.html#sys.__stdout__
@@ -24,56 +30,65 @@ def capture_stdout(func, *args, **kwargs):
 # ------------ Tests for the structure of the generated graph ------------
 
 def test_resolve_deps_simple1():
-    file_path = get_data_file_path('simple_deps1.json')
+    file_name = "simple_deps1"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    expected_output = "-pkg1\n  -pkg2\n    -pkg3\n  -pkg3\n-pkg2\n  -pkg3\n-pkg3\n"
+    expected_output = load_expected_output(f'{file_name}.txt')
     assert output == expected_output
 
 def test_resolve_deps_simple2():
-    file_path = get_data_file_path('simple_deps2.json')
+    file_name = "simple_deps2"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    expected_output = "-pkg1\n  -pkg3\n  -pkg2\n-pkg2\n  -pkg3\n-pkg3\n"
+    expected_output = load_expected_output(f'{file_name}.txt')
     assert output == expected_output
 
 def test_resolve_deps_complex():
-    file_path = get_data_file_path('complex_deps.json')
+    file_name = "complex_deps"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    expected_output = "-pkg1\n  -pkg2\n    -pkg3\n      -pkg5\n    -pkg5\n  -pkg3\n    -pkg5\n  -pkg4\n    -pkg5\n    -pkg6\n-pkg2\n  -pkg3\n    -pkg5\n  -pkg5\n-pkg3\n  -pkg5\n-pkg4\n  -pkg5\n  -pkg6\n-pkg5\n-pkg6\n"
+    expected_output = load_expected_output(f'{file_name}.txt')
     assert output == expected_output
 
 def test_resolve_deps_circular():
-    file_path = get_data_file_path('circular_deps.json')
+    file_name = "circular_deps"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    expected_output = "-pkg1\n  -pkg2\n    -pkg3\n-pkg2\n  -pkg3\n-pkg3\n"
+    expected_output = load_expected_output(f'{file_name}.txt')
     assert output == expected_output
 
+# yes, this one's output is an empty file...
 def test_resolve_deps_empty():
-    file_path = get_data_file_path('empty_deps.json')
+    file_name = "empty_deps"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    assert output == ""
+    expected_output = load_expected_output(f'{file_name}.txt')
+    assert output == expected_output
 
 def test_resolve_deps_single_package():
-    file_path = get_data_file_path('single_package_deps.json')
+    file_name = "single_package_deps"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     output = capture_stdout(resolve_deps, data)
-    expected_output = "-pkg1\n"
+    expected_output = load_expected_output(f'{file_name}.txt')
     assert output == expected_output
 
 # ------------ Errors related to json and the data itself ------------
 
 def test_resolve_deps_missing_dependency():
-    file_path = get_data_file_path('missing_dep_deps.json')
+    file_name = "missing_deps"
+    file_path = get_data_file_path(f'{file_name}.json')
     with open(file_path, 'r') as f:
         data = json.load(f)
     with pytest.raises(KeyError):
