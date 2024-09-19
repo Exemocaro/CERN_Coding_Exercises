@@ -12,7 +12,8 @@ description = "My package description"
 readme = "README.md"
 requires-python = ">=3.12.1"
 dependencies = [
-    "pytest"
+    "pytest",
+    "pylint"
 ]
 
 [project.scripts]
