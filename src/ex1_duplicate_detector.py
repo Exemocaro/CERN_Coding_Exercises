@@ -33,3 +33,29 @@ def detect_duplicates(input_list: List[Any]) -> List[Any]:
             seen_duplicates.add(item)
     
     return duplicates
+
+
+def main():
+    """
+    Main function to demonstrate the usage of the detect_duplicates function.
+    This function allows users to input a list of elements and displays the detected duplicates.
+    
+    Usage:
+        python -m ex1.src.ex1_duplicate_detector
+    
+    The user will be prompted to enter elements. To finish input, the user should press Enter without typing anything.
+    """
+    print("Enter elements of the list (press Enter without input to finish):")
+    input_list = []
+    while True:
+        element = input()
+        if element == "":
+            break
+        input_list.append(element)
+    
+    print("\nInput list:", input_list)
+    duplicates = detect_duplicates(input_list)
+    print("Detected duplicates:", duplicates)
+
+if __name__ == "__main__":
+    main()
