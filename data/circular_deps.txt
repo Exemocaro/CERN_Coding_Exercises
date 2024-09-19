@@ -3,4 +3,7 @@
     -pkg3
 -pkg2
   -pkg3
+    -pkg1
 -pkg3
+  -pkg1
+    -pkg2

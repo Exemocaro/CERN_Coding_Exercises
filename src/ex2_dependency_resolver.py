@@ -68,11 +68,6 @@ def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None, 
         -pkg3
     """
 
-    # steps:
-    # loop through deps.keys() and print the "main" packages
-    # do dfs on the dependencies of each pckg, and recursively call the function with the current package's list of dependencies
-    # go on until all nodes are on the seen set.
-
     # these 2 ifs were not set before as there were 2 functions here.
     # now I need these checks to see if it's the "first"/"main" time running the loop.
     if pckgs is None:
@@ -87,9 +82,10 @@ def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None, 
         
         if pckg not in seen:
             print(f"{(depth*2) * " "}-{pckg}")
-            seen.add(pckg) # added to avoid circular dependencies inside this own dependencies' list!
+            new_seen = seen.copy() # i create a new "seen" set here with seen.copy() to avoid modifying the seen set for the other branches. See simple_deps1 vs simple_deps2
+            new_seen.add(pckg)
             if isinstance(deps[pckg], list):  # checking if the dependencies of the current package are a list, as expected
-                resolve_deps(deps, deps[pckg], seen.copy(), depth + 1) # i use seen.copy() to avoid modifying the seen set for the other branches
+                resolve_deps(deps, deps[pckg], new_seen, depth + 1)
             else:
                 raise TypeError(f"Dependencies of {pckg} must be a list, not {type(deps[pckg])}")
 
