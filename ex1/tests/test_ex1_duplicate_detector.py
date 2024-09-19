@@ -1,5 +1,5 @@
 import pytest
-from src.ex1_duplicate_detector import detect_duplicates
+from ex1.src.ex1_duplicate_detector import detect_duplicates
 
 def test_empty_list():
     assert detect_duplicates([]) == []

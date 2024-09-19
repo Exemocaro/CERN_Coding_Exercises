@@ -3,7 +3,7 @@ import json
 import os
 from io import StringIO
 import sys
-from src.ex2_dependency_resolver import load_deps, resolve_deps, pprint
+from ex2.src.ex2_dependency_resolver import load_deps, resolve_deps
 
 # ------------ Helper functions ------------
 
