@@ -1,3 +1,7 @@
+"""
+This file contains the tests for the ex1_duplicate_detector.py file.
+"""
+
 import pytest
 from src.ex1_duplicate_detector import detect_duplicates
 

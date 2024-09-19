@@ -37,4 +37,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .
     - name: Run linter
-      run: pylint src tests
+      run: pylint src

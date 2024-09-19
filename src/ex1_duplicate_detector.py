@@ -1,9 +1,14 @@
+"""
+The first exercise of the coding challenge.
+The goal is to implement a function that detects all duplicate elements in a list.
+"""
+
 from typing import List, Any
 from collections import Counter
 
 def detect_duplicates(input_list: List[Any]) -> List[Any]:
     """
-    Detects all duplicate elements in a list.
+    Detects all duplicate elements in a list, and returns them in the order they first appeared.
 
     Args:
         input_list (List[Any]): The input list to check for duplicates.
@@ -25,13 +30,13 @@ def detect_duplicates(input_list: List[Any]) -> List[Any]:
     # I decided to use a set for faster lookup of seen duplicates after testing with large lists.
     # The testing became MUCH faster with this method.
     seen_duplicates = set()
-    
+
     # loop through the input_list to maintain the order of the elements, as mentioned above
     for item in input_list:
         if count[item] > 1 and item not in seen_duplicates:
             duplicates.append(item)
             seen_duplicates.add(item)
-    
+
     return duplicates
 
 
@@ -43,7 +48,8 @@ def main():
     Usage:
         python -m ex1.src.ex1_duplicate_detector
     
-    The user will be prompted to enter elements. To finish input, the user should press Enter without typing anything.
+    The user will be prompted to enter elements. To finish input, the user should 
+    press Enter without typing anything.
     """
     print("Enter elements of the list (press Enter without input to finish):")
     input_list = []
@@ -52,7 +58,7 @@ def main():
         if element == "":
             break
         input_list.append(element)
-    
+
     print("\nInput list:", input_list)
     duplicates = detect_duplicates(input_list)
     print("Detected duplicates:", duplicates)

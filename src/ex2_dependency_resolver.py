@@ -1,3 +1,9 @@
+"""
+The second exercise of the coding challenge.
+The goal is to implement a function that resolves dependencies between packages
+and prints the resulting dependency tree.
+"""
+
 import json
 import sys
 import os
@@ -6,6 +12,7 @@ from typing import Dict, List, Optional
 def pprint(d: Dict[str, List[str]]) -> None:
     """
     Pretty print a dictionary.
+
     Used in this file to check if the json was loaded correctly.
 
     Args:
@@ -24,27 +31,34 @@ def load_deps(file_path: str) -> Dict[str, List[str]]:
         file_path (str): The path to the JSON file containing dependencies.
 
     Returns:
-        Dict[str, List[str]]: A dictionary where keys are package names and values are lists of dependencies.
+        Dict[str, List[str]]: A dictionary where keys are package names and 
+        values are lists of dependencies.
 
     Raises:
         FileNotFoundError: If the specified file is not found.
         json.JSONDecodeError: If the file contains invalid JSON.
     """
-    with open(file_path, 'r') as f:
+    with open(file_path, "r",  encoding="utf-8") as f:
         return json.load(f)
 
-def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None, seen: Optional[set] = None, depth: int = 0) -> None:
+def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None,
+                 seen: Optional[set] = None, depth: int = 0) -> None:
     """
-    This function essentially resolves dependencies using a recursive depth-first search (DFS) approach.
-    The graph is represented as a dictionary where the key is the package name and the values are lists of dependencies.
-    The optional arguments are optional because in the first call of the function they are not needed, 
-    as they are set to the loaded \"deps\" dictionary with no previous \"pckgs\" or \"seen\" packages, and with a \"depth\" of 0.
+    This function essentially resolves dependencies using a recursive 
+    depth-first search (DFS) approach.
+
+    The graph is represented as a dictionary where the key is the 
+    package name and the values are lists of dependencies.
+
+    The optional arguments are optional because in the first call 
+    of the function they are not needed, as they are set to the loaded 
+    \"deps\" dictionary with no previous \"pckgs\" or \"seen\" packages, and with a \"depth\" of 0.
 
     Args:
         deps (Dict[str, List[str]]): The dependency graph to resolve.
-        pckgs (Optional[List[str]]): The current list of packages to process. If None, use all keys in deps.
+        pckgs (Optional[List[str]]): The current list of packages to process.
         seen (Optional[set]): Set of packages that have been processed to avoid cycles.
-        depth (int): The current depth in the dependency tree, used for indentation of the print statements.
+        depth (int): The current depth in the dependency tree, used for indentation on the prints.
 
     Returns:
         None
@@ -75,16 +89,22 @@ def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None, 
 
     if seen is None:
         seen = set()
-    
+
     for pckg in pckgs:
-        if not isinstance(pckg, str):  # without this check, it would loop over the chars of the string!
+        # without this check, it would loop over the chars of the string!
+        if not isinstance(pckg, str):
             raise TypeError(f"Package name must be a string, not {type(pckg)}")
-        
+
         if pckg not in seen:
             print(f"{(depth*2) * " "}-{pckg}")
-            new_seen = seen.copy() # i create a new "seen" set here with seen.copy() to avoid modifying the seen set for the other branches. See simple_deps1 vs simple_deps2
+
+            # i create a new "seen" set here with seen.copy() to avoid modifying
+            # the seen set for the other branches. See simple_deps1 vs simple_deps2
+            new_seen = seen.copy()
             new_seen.add(pckg)
-            if isinstance(deps[pckg], list):  # checking if the dependencies of the current package are a list, as expected
+
+            # checking if the dependencies of the current package are a list, as expected
+            if isinstance(deps[pckg], list):
                 resolve_deps(deps, deps[pckg], new_seen, depth + 1)
             else:
                 raise TypeError(f"Dependencies of {pckg} must be a list, not {type(deps[pckg])}")
@@ -92,7 +112,9 @@ def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None, 
 def main():
     """
     Main function to run the dependency resolver.
-    You can test it with pytest, but if you want to test a specific thing you can run it directly here as well.
+
+    You can test it with pytest, but if you want to test a specific 
+    thing you can run it directly here as well.
 
     Usage:
         python -m src.ex2_dependency_resolver <path_to_json_file>
@@ -119,7 +141,7 @@ def main():
         expected_output_path = os.path.splitext(file_path)[0] + '.txt'
         if os.path.exists(expected_output_path):
             print("\nExpected output:")
-            with open(expected_output_path, 'r') as f:
+            with open(expected_output_path, "r", encoding="utf-8") as f:
                 print(f.read())
         else:
             print("\nNo expected output file found.")
