@@ -4,6 +4,7 @@ Author: Mateus Pereira
 
 The coding exercises and my solutions to them for the TE-MPE-PE Section at CERN.
 
+
 ## Introduction and Thoughts
 
 Each exercise file is inside the src folder and the tests for each exercise are inside the tests folder with the same name as the exercise file, but with the prefix "test_". I wrote tests for the both of them using pytest to ensure the correctness of the functions, and because I believe that writing tests is a good practice to ensure the quality of the code. 
@@ -14,9 +15,11 @@ For the CI pipeline I used Github Actions. To ensure the "best possible automati
 
 All in all I probably overengineered the solution and overthought most of the stuff I had to write. Maybe I could have written a simpler solution for both exercises, but I wanted to make sure I was writing good code, following best practices and displaying my skills.
 
+
 ### First Exercise
 
 As for the 1st exercise, it was pretty straightforward to implement the function that detects duplicates in a list of elements. I used the Counter class from the collections module to count the occurrences of each element in the list and then I returned a list with the elements that have more than one occurrence. After implementing a simple version and testing it, I changed it a bit and added a set to check if an element was already added to the list of duplicates in order to massively improve the time on the tests.
+
 
 ### Second Exercise
 
@@ -61,9 +64,9 @@ would result in:
 -pkg3
 ```
 
-Notice how the pkg3 is installed before pkg2 in the first case and after in the second case. As such, the pkg2 looks like it has no dependencies. 
+Notice how the pkg2 is installed before pkg3, with pkg3 as its dependency in the first case; whilte it's installed after it in the second case, and as such, the pkg2 looks like it has no dependencies.
 
-But since the point of the exercise is to "reconstruct the full dependency graph", i had to write it in a way that the order of the packages doesn't matter. For that, when checking for each dependency of a package, I added it to a "seen" list. That list couldn't be the same for each branch, so I used the copy() method to solve that.
+But since the point of the exercise is to "reconstruct the full dependency graph", I had to write it in a way that the order of the packages wouldn't matter. For that, when checking for each dependency of a package, I added it to a "seen" list. That list couldn't be the same for each branch, so I used the copy() method to solve that.
 
 
 ## Environment Setup
@@ -132,6 +135,7 @@ pytest tests/test_ex1_duplicate_detector.py
 pytest tests/test_ex2_dependency_resolver.py
 ```
 
+
 ## Running Linter
 
 You don't need to do this, but since pylint is installed with the project you can test the linter to see the result before pushing into the main branch. You should also install the pylint extension if you use VSCode, for example. 
@@ -141,6 +145,7 @@ Anyway, to run the linter on the source files (you can do the same for the tests
 ```
 pylint src
 ```
+
 
 ## CI Pipeline
 
