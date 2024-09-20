@@ -135,6 +135,12 @@ pytest tests/test_ex1_duplicate_detector.py
 pytest tests/test_ex2_dependency_resolver.py
 ```
 
+or, alternatively to run all tests at the same time:
+
+```
+pytest tests
+```
+
 
 ## Running Linter
 
