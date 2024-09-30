@@ -131,9 +131,8 @@ def test_resolve_deps_non_list_dependency():
 
 def test_resolve_deps_self_dependency():
     self_dep_data = {"pkg1": ["pkg1"], "pkg2": []}
-    output = capture_stdout(resolve_deps, self_dep_data)
-    expected_output = "-pkg1\n-pkg2\n"
-    assert output == expected_output
+    with pytest.raises(ValueError, match="Self-dependency detected"):
+        resolve_deps(self_dep_data)
 
 def test_resolve_deps_non_string_key():
     invalid_data = {1: ["pkg1"], "pkg1": []}
