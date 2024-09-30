@@ -94,7 +94,7 @@ def resolve_deps(deps: Dict[str, List[str]], pckgs: Optional[List[str]] = None,
         # without this check, it would loop over the chars of the string!
         if not isinstance(pckg, str):
             raise TypeError(f"Package name must be a string, not {type(pckg)}")
-        
+
         if pckg in deps.get(pckg, []):  # check for self-dependency
             raise ValueError(f"Self-dependency detected: {pckg}")
 
